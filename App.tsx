@@ -1,19 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import React, { useMemo, useState } from 'react';
+import { AuthContext } from './src/contexts/AuthContext';
+import { Navigation } from './src/screens/Navigation';
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const value = useMemo(
+    () => ({
+      isLoggedIn,
+      logIn: () => setIsLoggedIn(true),
+      logOut: () => setIsLoggedIn(false),
+    }),
+    [isLoggedIn]
+  );
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+    <AuthContext.Provider value={value}>
+      <Navigation />
+    </AuthContext.Provider>
   );
 }
