@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextInput, View, StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import axios from 'axios';
 import { AuthStackParamList } from '../types';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -24,6 +25,18 @@ export function LoginScreen({
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const signIn = () => {
+    axios
+      .post<{ jwt: string }>('/user/login', {
+        username,
+        password,
+      })
+      .then(({ data: { jwt } }) => {
+        logIn(jwt);
+      })
+      .catch(console.log);
+  };
+
   return (
     <View>
       <TextInput
@@ -39,12 +52,7 @@ export function LoginScreen({
         value={password}
         secureTextEntry
       />
-      <Button
-        title="Log in"
-        onPress={() => {
-          logIn('jwt');
-        }}
-      />
+      <Button title="Log in" onPress={signIn} />
       <Button title="Register" onPress={goToRegisterScreen} />
     </View>
   );
