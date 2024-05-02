@@ -42,7 +42,7 @@ export function LoginScreen({
       <TextInput
         style={styles.input}
         onChangeText={setUsername}
-        placeholder="Name"
+        placeholder="Username"
         value={username}
       />
       <TextInput
